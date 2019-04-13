@@ -1,6 +1,7 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import { Auth } from 'aws-amplify';
 
 import "./Login.css";
 
@@ -24,8 +25,15 @@ export default class Login extends Component {
     });
   }
 
-  handleSubmit = event => {
+  handleSubmit = async event => {
     event.preventDefault();
+
+    try {
+      await Auth.signIn(this.state.email, this.state.password);
+      alert('Logged In');
+    } catch (e) {
+      alert(e.message);
+    }
   }
 
   render() {
