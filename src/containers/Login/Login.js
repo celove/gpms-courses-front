@@ -10,8 +10,8 @@ export default class Login extends Component {
     super(props);
 
     this.state = {
-      email: "",
-      password: ""
+      email: '',
+      password: ''
     };
   }
 
@@ -30,8 +30,10 @@ export default class Login extends Component {
 
     try {
       await Auth.signIn(this.state.email, this.state.password);
-      alert('Logged In');
+      this.props.userHasAuthenticated(true);
+      this.props.history.push('/');
     } catch (e) {
+      console.log(e);
       alert(e.message);
     }
   }
@@ -40,7 +42,7 @@ export default class Login extends Component {
     return (
       <div className="Login">
         <form onSubmit={this.handleSubmit}>
-          <Form.Group controlId="email" bsSize="large">
+          <Form.Group controlId="email">
             <Form.Label>Email</Form.Label>
             <Form.Control
               autoFocus
@@ -49,7 +51,7 @@ export default class Login extends Component {
               onChange={this.handleChange}
             />
           </Form.Group>
-          <Form.Group controlId="password" bsSize="large">
+          <Form.Group controlId="password">
             <Form.Label>Password</Form.Label>
             <Form.Control
               value={this.state.password}
@@ -59,7 +61,7 @@ export default class Login extends Component {
           </Form.Group>
           <Button
             block
-            bsSize="large"
+            size="lg"
             disabled={!this.validateForm()}
             type="submit"
           >
