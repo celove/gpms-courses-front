@@ -2,8 +2,9 @@ import { AUTH_USER_LOGIN } from './Authentication.actions';
 
 const defaultState = {
   user: null,
+  userForm: null,
   error: null,
-  loading: null,
+  isLoading: null,
 };
 
 export default (state = defaultState, action) => {
