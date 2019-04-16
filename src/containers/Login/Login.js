@@ -4,19 +4,21 @@ import { connect } from 'react-redux';
 import LoginForm from './LoginForm';
 import actions from './Login.actions';
 
-const Login = ({ handleSubmit, isLoading }) => (
+const Login = ({ signIn, isLoading, loginError }) => (
   <LoginForm
-    handleSubmit={handleSubmit}
     isLoading={isLoading}
+    onSubmit={signIn}
+    loginError={loginError}
   />
 );
 
 const mapStateToProps = state => ({
-  isLoading: state.isLoading,
+  isLoading: state.login.isLoading,
+  loginError: state.login.error,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  handleSubmit: dispatch(actions.handleSubmit),
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  signIn: () => dispatch(actions.signIn(ownProps.history)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

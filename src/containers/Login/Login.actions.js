@@ -1,37 +1,43 @@
 import { Auth } from 'aws-amplify';
+import { LOGIN_ERROR, LOGIN_LOADING, LOGIN_SUCCESS } from './Login.types';
+import { AUTH_USER_SET } from '../Authentication';
 
 const startLoading = {
-  isLoading: true,
+  type: LOGIN_LOADING,
 };
 
-const stopLoading = {
-  isLoading: false,
+
+const loginSuccess = {
+  type: LOGIN_SUCCESS,
 };
 
-const loginSuccess = (user) => {
-  console.log('user', user);
-};
+const loginError = error => ({
+  type: LOGIN_ERROR,
+  error,
+});
 
-const handleSubmit = event => (dispatch, getState) => {
-  console.log('STATE', getState());
-  dispatch('OI');
-  event.preventDefault();
-  // return async (dispatch, getState) => {
-    console.log('DISPATCH')
-  //   const { form } = getState();
-  //   try {
-  //     dispatch(startLoading);
-  //     const user = await Auth.signIn(form.login.email, form.login.password);
-  //     dispatch(loginSuccess(user));
-  //     // this.props.history.push('/');
-  //   } catch (e) {
-  //     alert(e.message);
-  //     this.setState({ isLoading: false });
-  //   }
-  //   dispatch(stopLoading);
-  // }
+const setUser = user => ({
+  type: AUTH_USER_SET,
+  user,
+});
+
+const signIn = history => async (dispatch, getState) => {
+  console.log(history);
+  
+  const { email, password } = getState().form.login.values;
+  
+  try {
+    dispatch(startLoading);
+    const user = await Auth.signIn(email, password);
+    dispatch(loginSuccess);
+    dispatch(setUser(user));
+    history.push('/');
+  } catch (e) {
+    console.log(e);
+    dispatch(loginError(e.message));
+  }
 };
 
 export default {
-  handleSubmit,
+  signIn,
 };

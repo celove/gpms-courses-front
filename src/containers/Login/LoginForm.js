@@ -1,7 +1,8 @@
 import React from 'react';
 import Form from 'react-bootstrap/Form';
-import { Field, reduxForm } from 'redux-form';
-
+import Alert from 'react-bootstrap/Alert';
+import { Form as RForm, Field, reduxForm } from 'redux-form';
+import { func, bool } from 'prop-types';
 import './LoginForm.css';
 import LoaderButton from '../../components/LoaderButton';
 
@@ -10,23 +11,30 @@ const validateForm = values => {
     (values.password && values.password.lenght > 0);
 };
 
-const LoginForm = ({ handleSubmit, isLoading, invalid, submitting }) => (
+const LoginForm = ({ handleSubmit, isLoading, invalid, submitting, loginError }) => (
   <div className="Login">
-    <form onSubmit={handleSubmit}>
+    <RForm onSubmit={handleSubmit}>
+      {
+        loginError &&
+        <Alert variant="danger">{loginError}</Alert>
+      }
       <Form.Group controlId="email">
         <Form.Label>Email</Form.Label>
         <Field
           name="email"
-          component={Form.Control}
-          autoFocus
           type="email"
+          component="input"
+          className="form-control"
+          autoFocus
         />
       </Form.Group>
       <Form.Group controlId="password">
         <Form.Label>Password</Form.Label>
-        <Form.Control
+        <Field
           name="password"
           type="password"
+          component="input"
+          className="form-control"
         />
       </Form.Group>
       <LoaderButton
@@ -38,9 +46,14 @@ const LoginForm = ({ handleSubmit, isLoading, invalid, submitting }) => (
         text="Login"
         loadingText="Logando..."
       />
-    </form>
+    </RForm>
   </div>
 );
+
+LoginForm.propTypes = {
+  onSubmit: func,
+  isLoading: bool,
+};
 
 export default reduxForm({
   form: 'login',

@@ -1,4 +1,4 @@
-import { AUTH_USER_LOGIN } from './Authentication.actions';
+import { AUTH_USER_SET } from './Authentication.types';
 
 const defaultState = {
   user: null,
@@ -9,10 +9,10 @@ const defaultState = {
 
 export default (state = defaultState, action) => {
   switch(action.type) {
-    case 'TEST':
+    case AUTH_USER_SET:
       return {
         ...state,
-        name: 'New User!',
+        user: action.user,
       }
     default:
       return state;
