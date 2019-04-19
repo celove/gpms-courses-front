@@ -2,7 +2,7 @@ import React from 'react';
 import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
 import { Form as RForm, Field, reduxForm } from 'redux-form';
-import { func, bool } from 'prop-types';
+import { func, bool, string } from 'prop-types';
 import './LoginForm.css';
 import LoaderButton from '../../components/LoaderButton';
 
@@ -51,8 +51,9 @@ const LoginForm = ({ handleSubmit, isLoading, invalid, submitting, loginError })
 );
 
 LoginForm.propTypes = {
-  onSubmit: func,
-  isLoading: bool,
+  onSubmit: func.isRequired,
+  isLoading: bool.isRequired,
+  loginError: string,
 };
 
 export default reduxForm({
