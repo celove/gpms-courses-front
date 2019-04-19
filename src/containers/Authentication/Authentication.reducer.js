@@ -1,10 +1,14 @@
-import { AUTH_USER_SET } from './Authentication.types';
+import {
+    AUTH_USER_SET,
+    AUTH_USER_ACTIVATE,
+    AUTH_USER_DEACTIVATE,
+    AUTH_FINISH_AUTHENTICATING
+} from './Authentication.types';
 
 const defaultState = {
   user: null,
-  userForm: null,
-  error: null,
-  isLoading: null,
+  isAuthenticated: false,
+  isAuthenticating: true,
 };
 
 export default (state = defaultState, action) => {
@@ -14,6 +18,21 @@ export default (state = defaultState, action) => {
         ...state,
         user: action.user,
       }
+    case AUTH_USER_ACTIVATE:
+      return {
+        ...state,
+        isAuthenticated: true,
+      };
+    case AUTH_USER_DEACTIVATE:
+      return {
+        ...state,
+        isAuthenticated: false,
+      };
+    case AUTH_FINISH_AUTHENTICATING:
+      return {
+        ...state,
+        isAuthenticating: false,
+      };
     default:
       return state;
   }

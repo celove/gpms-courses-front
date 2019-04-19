@@ -1,6 +1,6 @@
 import { Auth } from 'aws-amplify';
 import { LOGIN_ERROR, LOGIN_LOADING, LOGIN_SUCCESS } from './Login.types';
-import { setUser } from '../Authentication/Authentication.actions';
+import { activateUser } from '../Authentication/Authentication.actions';
 
 const startLoading = {
   type: LOGIN_LOADING,
@@ -24,9 +24,9 @@ const signIn = history => async (dispatch, getState) => {
   
   try {
     dispatch(startLoading);
-    const user = await Auth.signIn(email, password);
+    await Auth.signIn(email, password);
     dispatch(loginSuccess);
-    dispatch(setUser(user.user));
+    dispatch(activateUser);
     history.push('/');
   } catch (e) {
     console.log(e);
